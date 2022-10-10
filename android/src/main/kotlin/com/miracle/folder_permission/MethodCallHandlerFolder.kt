@@ -15,6 +15,7 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
+import java.io.File
 
 
 /** MethodCallHandlerFolder */
@@ -103,11 +104,14 @@ class MethodCallHandlerFolder(private val context: Context) :
 
             var  fileUris : ArrayList<String> = ArrayList()
 
+            val uriToFile: UriToFile = UriToFile(context);
+
             val fileDoc = DocumentFile.fromTreeUri(context,  permissions.get(index).getUri())
             for (file: DocumentFile in fileDoc!!.listFiles()) {
                 if (!file.name!!.endsWith(".nomedia")) {
 //                    Log.e("name", file.uri.toString())
-                    fileUris.add(file.uri.toString())
+//                    fileUris.add(file.uri.toString())
+                    fileUris.add(uriToFile.fromUri(file.uri.toString()).toString())
                 }
             }
             result!!.success(fileUris)
