@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:folder_permission/folder_permission.dart';
+import 'package:uri_to_file/uri_to_file.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +32,7 @@ class _MyAppState extends State<MyApp> {
         if(data != null){
           for(var i=0; i<data.length; i++){
             if(!data[i].toString().contains(".mp4")){
-              files.add(File(data[i].toString()));
+              files.add(await toFile(data[i].toString()));
             }
 
           }
@@ -73,7 +74,6 @@ class _MyAppState extends State<MyApp> {
                   getImages();
                 }
               }, child: Text("Open Folder Permission")),
-
 
               ...List.generate(files.length, (index) => Container(margin: EdgeInsets.all(10),child: Image.file(files[index],)))
 
