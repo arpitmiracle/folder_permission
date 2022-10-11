@@ -25,18 +25,22 @@ class _MyAppState extends State<MyApp> {
 
   getImages()async{
     try{
-      var data = await _folderPermission.getFolderData(arguments: {"FolderPath" : FolderPermission.WHATSAPP});
+      var installed = await _folderPermission.checkAppInstalled(arguments: {"packageName" : FolderPermission.WHATSAPP});
+      if(installed == true){
+        var data = await _folderPermission.getFolderData(arguments: {"FolderPath" : FolderPermission.WHATSAPP});
+        if(data != null){
+          for(var i=0; i<data.length; i++){
+            if(!data[i].toString().contains(".mp4")){
+              files.add(File(data[i].toString()));
+            }
 
-      if(data != null){
-        for(var i=0; i<data.length; i++){
-          if(!data[i].toString().contains(".mp4")){
-            files.add(File(data[i].toString()));
           }
 
+          setState(() {});
         }
-
-        setState(() {});
       }
+
+
     } catch(e){
       // if(e.toString().contains("Permission denied")){
       //

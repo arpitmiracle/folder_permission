@@ -13,8 +13,13 @@ class FolderPermission {
   }
 
   Future<List?> getFolderData({required arguments}) async {
-    final permission = await methodChannel.invokeMethod<List?>('getFolderData',arguments);
-    return permission;
+    final data = await methodChannel.invokeMethod<List?>('getFolderData',arguments);
+    return data;
+  }
+
+  Future<bool?> checkAppInstalled({required arguments}) async {
+    final installed = await methodChannel.invokeMethod<bool?>('checkAppInstalled',arguments);
+    return installed;
   }
 
 }

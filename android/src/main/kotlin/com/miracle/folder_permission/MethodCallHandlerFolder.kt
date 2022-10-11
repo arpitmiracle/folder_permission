@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.UriPermission
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.storage.StorageManager
@@ -15,7 +17,6 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
-import java.io.File
 
 
 /** MethodCallHandlerFolder */
@@ -47,6 +48,13 @@ class MethodCallHandlerFolder(private val context: Context) :
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     getFolderData(path)
                 }
+            }
+
+            "checkAppInstalled" ->{
+
+                var packageName : String = callArguments["packageName"] as String
+                val installed = checkAppInstalled(context, packageName)
+                result!!.success(installed)
             }
 
             else -> resultm.notImplemented()
@@ -146,6 +154,44 @@ class MethodCallHandlerFolder(private val context: Context) :
             result!!.success(resultCode)
         }
         return true
+    }
+
+
+    private fun checkAppInstalled(context: Context, pkgName: String?): Boolean {
+        if (pkgName == null || pkgName.isEmpty()) {
+            return false
+        }
+        var packageInfo: PackageInfo?
+        try {
+            try {
+                packageInfo = context.packageManager.getPackageInfo(
+                    pkgName,
+                    PackageManager.GET_ACTIVITIES or PackageManager.GET_SERVICES
+                )
+                if (packageInfo == null) {
+                    //donothing
+                } else {
+                    return true //true为安装了，false为未安装
+                }
+            } catch (e: Exception) {
+                packageInfo = null
+                e.printStackTrace()
+            }
+            val packageManager: PackageManager = context.packageManager
+            val info: List<PackageInfo> = packageManager.getInstalledPackages(0)
+            if (info == null || info.isEmpty()) return false
+            for (i in info.indices) {
+                val name: String = info[i].packageName
+                Log.e("IsAppInstalledPlugin", name)
+                if (pkgName == name) {
+                    return true
+                }
+            }
+        } catch (e: Exception) {
+            packageInfo = null
+            e.printStackTrace()
+        }
+        return false
     }
 
     fun init(messenger: BinaryMessenger) {
