@@ -159,7 +159,7 @@ class MethodCallHandlerFolder(private val context: Context) :
 
     private fun checkAppInstalled(context: Context, pkgName: String?): Boolean {
         if (pkgName == null || pkgName.isEmpty()) {
-            return false
+           return false
         }
         var packageInfo: PackageInfo?
         try {
@@ -179,7 +179,7 @@ class MethodCallHandlerFolder(private val context: Context) :
             }
             val packageManager: PackageManager = context.packageManager
             val info: List<PackageInfo> = packageManager.getInstalledPackages(0)
-            if (info == null || info.isEmpty()) return false
+            if (info.isEmpty()) return false
             for (i in info.indices) {
                 val name: String = info[i].packageName
                 Log.e("IsAppInstalledPlugin", name)
@@ -187,6 +187,7 @@ class MethodCallHandlerFolder(private val context: Context) :
                     return true
                 }
             }
+
         } catch (e: Exception) {
             packageInfo = null
             e.printStackTrace()

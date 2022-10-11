@@ -67,11 +67,14 @@ class _MyAppState extends State<MyApp> {
             children: [
 
               ElevatedButton(onPressed: () async {
-                var data = await _folderPermission.getFolderPermission(arguments: {"FolderPath" : FolderPermission.WHATSAPP});
 
-                if(data == -1){
-                  getImages();
-                }
+                var installed = await _folderPermission.checkAppInstalled(arguments: {"packageName" : FolderPermission.GBWHATSAPP});
+                print(installed);
+                // var data = await _folderPermission.getFolderPermission(arguments: {"FolderPath" : FolderPermission.WHATSAPP});
+                //
+                // if(data == -1){
+                //   getImages();
+                // }
               }, child: Text("Open Folder Permission")),
 
 
