@@ -112,14 +112,12 @@ class MethodCallHandlerFolder(private val context: Context) :
 
             var  fileUris : ArrayList<String> = ArrayList()
 
-            val uriToFile: UriToFile = UriToFile(context);
 
             val fileDoc = DocumentFile.fromTreeUri(context,  permissions.get(index).getUri())
             for (file: DocumentFile in fileDoc!!.listFiles()) {
                 if (!file.name!!.endsWith(".nomedia")) {
 //                    Log.e("name", file.uri.toString())
-//                    fileUris.add(file.uri.toString())
-                    fileUris.add(uriToFile.fromUri(file.uri.toString()).toString())
+                    fileUris.add(file.uri.toString())
                 }
             }
             result!!.success(fileUris)
