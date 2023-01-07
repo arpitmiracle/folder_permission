@@ -17,6 +17,7 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
+import java.io.File
 
 
 /** MethodCallHandlerFolder */
@@ -61,6 +62,19 @@ class MethodCallHandlerFolder(private val context: Context) :
         }
 
     }
+//
+//    fun create_folder_in_app_package_media_dir(context: Context): String? {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            var directory: Array<File?> = arrayOfNulls<File>(0)
+//            directory = context.externalMediaDirs
+//            for (i in directory.indices) {
+//                if (directory[i]?.getName().toString().contains(context.packageName)) {
+//                    return directory[i]?.getAbsolutePath()
+//                }
+//            }
+//        }
+//        return null
+//    }
 
     private fun getFolderPermission(path: String){
         Log.d("getFolderPermission","getFolderPermission called")
